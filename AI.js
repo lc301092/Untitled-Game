@@ -52,12 +52,16 @@ function NPCTurn() {
             console.log("Something went horribly wrong creating this abomination of an NPC");
     }
 
+
     this.PrintState();
+
+    EndTurn(this);
+    
 }
 
 
 let NPC = {
-    name: 'NPC',
+    name: 'Mecha Hitler, our Friend, our Führer',
     drawPile: [],
     discardPile: [],
     SetupDeck: SetupDeck,
@@ -66,6 +70,7 @@ let NPC = {
     Stand: Stand,
     Draw: DrawCard,
     PrintState: PrintState,
-    cardSum: 0
+    cardSum: 0,
+    isStanding: false
 }
 
