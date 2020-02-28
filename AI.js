@@ -9,10 +9,12 @@ function isBiggerThan(number, threshold) {
 }
 
 function NPCTurn() {
+    let threshold;
+    let willStand;
     switch (this.behaviour) {
         case "standard":
-            let threshold = 9;
-            let willStand = isBiggerThanOrEqual(this.cardSum, threshold);
+            threshold = 8;
+            willStand = isBiggerThanOrEqual(this.cardSum, threshold);
             if (willStand) {
                 this.Stand();
                 break;
@@ -21,9 +23,10 @@ function NPCTurn() {
                 this.Draw();
                 break;
             }
+            break;
         case "aggressive":
-            let threshold = 10;
-            let willStand = isBiggerThanOrEqual(this.cardSum, threshold);
+            threshold = 10;
+            willStand = isBiggerThanOrEqual(this.cardSum, threshold);
             if (willStand) {
                 this.Stand();
                 break;
@@ -34,8 +37,8 @@ function NPCTurn() {
             }
             break;
         case "reckless":
-            let threshold = 12;
-            let willStand = isBiggerThanOrEqual(this.cardSum, threshold);
+            threshold = 12;
+            willStand = isBiggerThanOrEqual(this.cardSum, threshold);
             if (willStand) {
                 this.Stand();
                 break;
