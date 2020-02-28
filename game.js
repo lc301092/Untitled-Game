@@ -1,88 +1,57 @@
 const DECK_SIZE = 24;
 const CARD_VARIANCE = 6;
 const MAX_VALUE = 12;
+
 let player = {
+	name: 'HEJEJEJ',
 	drawPile: [],
 	discardPile: [],
-	summationeValue: 0
+	cardSum: 0,
+	SetupDeck: SetupDeck,
+	PrintState: PrintState,
+	DrawCard: DrawCard,
+	Stand: Stand,
+	
+	
 };
-$(document).ready(function () {
 
+let activeAgents = [player];
+
+$(document).ready(function () {
 	// look at how many agents are in the game and setup
-	setupDeck();
+	for(agent in activeAgents){
+		agent.SetupDeck;
+	}
 	
 	// player has three actions with corresponding event listeners
 
 	// draw card
 	$('#btn_draw').on('click', function () {
 		if (player.drawPile == 0) {
-			setupDeck();
-			drawCard();
+			activeAgents[0].SetupDeck();
+			activeAgents[0].DrawCard();
 		} else 
-			drawCard();
+			activeAgents[0].DrawCard();
 
-		console.log("new value is: " + player.summationeValue)
+		console.log('new value is: ' + activeAgents[0].cardSum)
 	});
 	// stand 
 	$('#btn_stand').on('click', function () {
-		console.log('you stand at: ' + player.summationeValue);
-		newRound();
+		activeAgents[0].Stand();
+		
 	});
 	
 	// look at the game state
 	$('#btn_status').on('click', function () {
-		printState();
+		activeAgents[0].PrintState();
 	});
 
 
 
 });
 
-function shuffle(array) {
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-	}
-	return array;
+function EndTurn(){
+	console.log('to be implemented');
 }
 
-function drawCard() {
-	let card = player.drawPile.pop();
-	let nextValue = player.summationeValue + card;
-	
-	player.discardPile.push(card);
-	console.log('Drawing from pile');
-	console.log("Card is: " + card);
-	
-	if (nextValue > MAX_VALUE) {
-		console.log(nextValue + " IS ABOVE " + MAX_VALUE + "!");
-		newRound();
-	} else if (nextValue == MAX_VALUE){	
-		console.log("CRITICAL HIT WITH " + MAX_VALUE + "!");
-		newRound();
-	} else
-		player.summationeValue = nextValue;
-}
 
-function printState() {
-	console.log("------------------------------------");
-	console.log(player.drawPile.length + " cards in draw pile. \n" + player.discardPile.length + " cards in discard pile: " + player.discardPile +'\n'+"status: " + player.summationeValue);
-	console.log("------------------------------------");
-	
-	// there should also be a way to see the opponent's state;
-}
-
-function setupDeck() {
-	// fill deck with cards;
-	for (i = 0; i < DECK_SIZE; i++) {
-		player.drawPile[i] = i % CARD_VARIANCE + 1;
-	}
-	// shuffle cards
-	shuffle(player.drawPile);
-	console.log('Pile shuffled with ' + DECK_SIZE + ' cards');
-
-}
-
-function newRound() {
-	player.summationeValue = 0;
-}
