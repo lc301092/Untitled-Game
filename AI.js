@@ -1,11 +1,16 @@
 //agent.function => wanted result
-
-//Returns bool, draw or not?
-function isBiggerThanOrEqual(number, threshold) {
-    return number >= threshold ? true : false;
-}
-function isBiggerThan(number, threshold) {
-    return number > threshold ? true : false;
+let NPC = {
+    name: 'Mecha Hitler, our Friend, our Führer',
+    drawPile: [],
+    discardPile: [],
+    SetupDeck: SetupDeck,
+    behaviour: 'standard',
+    TakeTurn: NPCTurn,
+    Stand: Stand,
+    Draw: DrawCard,
+    PrintState: PrintState,
+    cardSum: 0,
+    isStanding: false
 }
 
 function NPCTurn() {
@@ -60,17 +65,5 @@ function NPCTurn() {
 }
 
 
-let NPC = {
-    name: 'Mecha Hitler, our Friend, our Führer',
-    drawPile: [],
-    discardPile: [],
-    SetupDeck: SetupDeck,
-    behaviour: 'standard',
-    TakeTurn: NPCTurn,
-    Stand: Stand,
-    Draw: DrawCard,
-    PrintState: PrintState,
-    cardSum: 0,
-    isStanding: false
-}
+
 

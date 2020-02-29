@@ -7,4 +7,11 @@ function Shuffle(array) {
 	return array;
 }
 
+function isBiggerThanOrEqual(number, threshold) {
+    return number >= threshold ? true : false;
+}
+
+function isBiggerThan(number, threshold) {
+    return number > threshold ? true : false;
+}
 

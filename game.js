@@ -11,10 +11,18 @@ let player = {
 	PrintState: PrintState,
 	DrawCard: DrawCard,
 	Stand: Stand,
-    isStanding: false
+	isStanding: false, 
 };
 
 let activeAgents = [player, NPC];
+
+function InitializePlayers(){
+	for (let i = 0; i < activeAgents.length; i++){
+		let agent = activeAgents[i];
+		agent.SetupDeck();
+		//console.log(activeAgents[i].name);
+	}
+}
 
 $(document).ready(function () {
 	//console.log(player.name);
@@ -29,12 +37,7 @@ $(document).ready(function () {
 
 	// draw card
 	$('#btn_draw').on('click', function () {
-		if (player.drawPile == 0) {
-			activeAgents[0].SetupDeck();
-			activeAgents[0].DrawCard();
-		} else {
-			activeAgents[0].DrawCard();
-		}
+		activeAgents[0].DrawCard();
 		activeAgents[0].PrintState();
 		EndTurn(activeAgents[0]);
 
@@ -56,7 +59,6 @@ $(document).ready(function () {
 
 function EndTurn(agent) {
 	console.log("##################### " + agent.name + " ends their turn #####################");
-
 	while (activeAgents[0].isStanding && !activeAgents[1].isStanding){
 		activeAgents[1].TakeTurn();
 		if (activeAgents[1].isStanding) return;

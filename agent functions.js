@@ -9,6 +9,9 @@ function SetupDeck() {
 }
 
 function DrawCard() {
+	if (this.drawPile == 0) {
+		this.SetupDeck();
+	}
 	let card = this.drawPile.pop();
 	let nextValue = this.cardSum + card;
 
