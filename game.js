@@ -12,26 +12,52 @@ let player = {
 	DrawCard: DrawCard,
 	Stand: Stand,
 	isStanding: false, 
+	TakeTurn: PlayerTurn
 };
 
-let activeAgents = [player, NPC];
+let gameManager = {
+	currentPlayersTurn: null,
+	inactivePlayer: null,
+	players: [],
+	GiveTurn: GiveTurn
+}
 
-function InitializePlayers(){
+let activeAgents = [player, NPC]; //NPC defined in "AI.js"
+gameManager.players = activeAgents;
+gameManager.currentPlayersTurn = player;
+gameManager.inactivePlayer = NPC;
+console.log(gameManager);
+
+//GameManaging function - gives turn to a player, that then uses it for something.
+function GiveTurn(agent){
+	if (!agent.isStanding){
+		this.inactivePlayer = this.currentPlayersTurn;
+		this.currentPlayersTurn = agent;
+		agent.TakeTurn();
+		return;
+	}
+
+	if(this.currentPlayersTurn.isStanding){
+		FindWinner(activeAgents);
+		return;
+	}
+
+	this.currentPlayersTurn.TakeTurn(); //Currentplayer stays the same, and they take their turn.
+}
+
+function InitializePlayers(_gameManager){
 	for (let i = 0; i < activeAgents.length; i++){
 		let agent = activeAgents[i];
-		agent.SetupDeck();
-		//console.log(activeAgents[i].name);
+		agent.gameManager = _gameManager;
+		agent.SetupDeck();	
 	}
+	gameManager.players = activeAgents;
 }
 
 $(document).ready(function () {
-	//console.log(player.name);
 	// look at how many agents are in the game and setup
-	for (let i = 0; i < activeAgents.length; i++){
-		let agent = activeAgents[i];
-		agent.SetupDeck();
-		//console.log(activeAgents[i].name);
-	}
+	InitializePlayers(gameManager);
+
 
 	// player has three actions with corresponding event listeners
 
@@ -39,13 +65,13 @@ $(document).ready(function () {
 	$('#btn_draw').on('click', function () {
 		activeAgents[0].DrawCard();
 		activeAgents[0].PrintState();
-		EndTurn(activeAgents[0]);
+		EndTurn(activeAgents[0], gameManager);
 
 	});
 	// stand 
 	$('#btn_stand').on('click', function () {
 		activeAgents[0].Stand();
-		EndTurn(activeAgents[0]);
+		EndTurn(activeAgents[0], gameManager);
 	});
 
 	// look at the game state
@@ -57,23 +83,17 @@ $(document).ready(function () {
 
 });
 
-function EndTurn(agent) {
-	console.log("##################### " + agent.name + " ends their turn #####################");
-	while (activeAgents[0].isStanding && !activeAgents[1].isStanding){
-		activeAgents[1].TakeTurn();
-		if (activeAgents[1].isStanding) return;
-	}
-
-	//TODO: Implement game-state that tracks whose turn it is, so mecha hitler stops cheating.
-
-	if (activeAgents[0].isStanding) {
-		console.log("WINNER IS: " + FindWinner(activeAgents).name);
-	}
-	
+function EndTurn(agent, _gameManager = gameManager) {
+	console.log("##################### " + agent.name + " ends their turn #####################");	
+	_gameManager.GiveTurn(_gameManager.inactivePlayer);
 }
 
 
 function FindWinner(agentArray){
-	return winner = agentArray[0].cardSum > agentArray[1].cardSum ? agentArray[0] : 
+	let winner = agentArray[0].cardSum > agentArray[1].cardSum ? agentArray[0] : 
 		agentArray[0].cardSum == agentArray[1].cardSum ? {name: "Tie."} : agentArray[1];
+	console.log("WINNER IS: ");
+	console.log(winner.name);
 }
+
+

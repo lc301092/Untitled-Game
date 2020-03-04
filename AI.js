@@ -10,7 +10,8 @@ let NPC = {
     Draw: DrawCard,
     PrintState: PrintState,
     cardSum: 0,
-    isStanding: false
+    isStanding: false,
+    //_gameManager: "not yet initialized"
 }
 
 function NPCTurn() {

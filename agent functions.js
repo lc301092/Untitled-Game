@@ -49,3 +49,8 @@ function Stand() {
 	console.log(this.name + ' chose to stand at: ' + this.cardSum);
 	this.isStanding = true;
 }
+
+function PlayerTurn(){
+	//Might do something in the future for players. AI also has a variant. 
+	//(TakeTurn: func) in player objects.
+}
