@@ -11,6 +11,7 @@ function SetupDeck() {
 function DrawCard() {
 	if (this.drawPile == 0) {
 		this.SetupDeck();
+		this.discardPile = [];
 	}
 	let card = this.drawPile.pop();
 	let nextValue = this.cardSum + card;
@@ -19,14 +20,20 @@ function DrawCard() {
 	console.log('Drawing from pile');
 	console.log('Card is: ' + card);
 
-	// this could be a helper funcertion
+	if (nextValue == MAX_VALUE) {
+		console.log('CRITICAL HIT WITH ' + nextValue + '!');
+		this.Stand();
+	} 
 	if (nextValue > MAX_VALUE) {
+		console.log("TOO HIGH!");
+		// this does not work as intended 
 		console.log(nextValue + ' IS ABOVE ' + MAX_VALUE + '!');
-		this.cardSum = 0;
-	} else if (nextValue == MAX_VALUE) {
-		console.log('CRITICAL HIT WITH ' + MAX_VALUE + '!');
-		this.cardSum = 0;
-	} else
+		nextValue =  nextValue - (MAX_VALUE - nextValue);
+		// TODO: if that nextValue is still higher than opponent nextValue = opponent cardsSum - 1 
+		// to ensure that exceeding 12 results in a loss.
+		console.log(this.name + ' is set back to ' +  nextValue);
+		this.Stand(); 
+	} 
 		this.cardSum = nextValue;
 }
 
@@ -34,11 +41,13 @@ function PrintState() {
 	console.log('------------------------------------');
 	console.log('State of ' + this.name);
 	console.log(this.drawPile.length +
-		' cards in draw pile. \n' +
+		' cards in draw pile. ' + 
+		' \n' +
 		this.discardPile.length +
 		' cards in discard pile: ' +
 		this.discardPile +
-		'\n' + 'status: ' +
+		'\n' + 
+		'status: ' +
 		this.cardSum);
 	console.log('------------------------------------');
 	// there should also be a way to see the opponent's state;
@@ -54,3 +63,4 @@ function PlayerTurn(){
 	//Might do something in the future for players. AI also has a variant. 
 	//(TakeTurn: func) in player objects.
 }
+

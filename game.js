@@ -28,39 +28,14 @@ gameManager.currentPlayersTurn = player;
 gameManager.inactivePlayer = NPC;
 console.log(gameManager);
 
-//GameManaging function - gives turn to a player, that then uses it for something.
-function GiveTurn(agent){
-	if (!agent.isStanding){
-		this.inactivePlayer = this.currentPlayersTurn;
-		this.currentPlayersTurn = agent;
-		agent.TakeTurn();
-		return;
-	}
 
-	if(this.currentPlayersTurn.isStanding){
-		FindWinner(activeAgents);
-		return;
-	}
-
-	this.currentPlayersTurn.TakeTurn(); //Currentplayer stays the same, and they take their turn.
-}
-
-function InitializePlayers(_gameManager){
-	for (let i = 0; i < activeAgents.length; i++){
-		let agent = activeAgents[i];
-		agent.gameManager = _gameManager;
-		agent.SetupDeck();	
-	}
-	gameManager.players = activeAgents;
-}
 
 $(document).ready(function () {
 	// look at how many agents are in the game and setup
 	InitializePlayers(gameManager);
 
-
 	// player has three actions with corresponding event listeners
-
+	
 	// draw card
 	$('#btn_draw').on('click', function () {
 		activeAgents[0].DrawCard();
@@ -96,4 +71,38 @@ function FindWinner(agentArray){
 	console.log(winner.name);
 }
 
+function ResetStatus(){
+	for (agent in activeAgents){
+		agent.cardSum = 0;
+		agent.isStanding = false;
+	}
+}
+
+function InitializePlayers(_gameManager){
+	for (let i = 0; i < activeAgents.length; i++){
+		let agent = activeAgents[i];
+		agent.gameManager = _gameManager;
+		agent.SetupDeck();	
+	}
+	gameManager.players = activeAgents;
+}
+
+//GameManaging function - gives turn to a player, that then uses it for something.
+function GiveTurn(agent){
+	if (!agent.isStanding){
+		this.inactivePlayer = this.currentPlayersTurn;
+		this.currentPlayersTurn = agent;
+		agent.TakeTurn();
+		return;
+	}
+
+	// Both player are standing 
+	if(this.currentPlayersTurn.isStanding){
+		FindWinner(activeAgents);
+		ResetStatus();
+		return;
+	}
+
+	this.currentPlayersTurn.TakeTurn(); //Currentplayer stays the same, and they take their turn.
+}
 
