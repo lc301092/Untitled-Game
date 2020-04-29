@@ -82,7 +82,7 @@ function FindWinner(agentArray) {
 		resultString = "Losses.";
 	}
 
-	storeGameResults(localAgent, resultString);
+	storeGameResults(agentArray[0], resultString);
 }
 
 function ResetStatus() {
