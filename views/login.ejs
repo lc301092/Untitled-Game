@@ -1,0 +1,18 @@
+<%- include('template_header'); -%>
+
+<body>
+	<div id="container">
+		<form id="login_form" action="/login" method="POST">
+			<div class="login_div">
+
+				<label for="uname"><b>Username</b></label>
+				<input type="text" placeholder="Enter Username" name="uname" required>
+
+				<label for="psw"><b>Password</b></label>
+				<input type="password" placeholder="Enter Password" name="psw" required>
+
+				<button type="submit">Login</button>
+			</div>
+		</form>
+	</div>
+</body>
