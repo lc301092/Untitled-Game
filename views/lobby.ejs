@@ -1,11 +1,32 @@
 <%- include('template_header'); -%>
 
+<script>$(document).ready(function () {
+		document.getElementById("sendButton").addEventListener("click", function () {
+			console.log("LUCA");
+			$.ajax({
+				type: "POST",
+				url: "chat_message",
+				data: JSON.stringify({ message: "placeholder of chat-message" }),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				work: "yes"
+			}).done(function (data) {
+				console.log("JAMIE");
+				console.log(data);
+
+				alert(data.messageBack);
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				console.log(errorThrown.toString());
+				console.log("LUCA STADIG ALENE");
+			});
+		});
+	});
+</script>
+
 <body>
 	<h3> Welcome to lobby <%= user.name %> </h3>
 	<p>some rules about the game lorem ipsum...</p>
 	<div id="chat"> Chat window </br> text will show up here... ... eventually?</div>
-	<form id="command_form" method="POST" action="enter_room">
-		<input id="command_input" type="text" placeholder="write commands here... eventually?">
-		<input id="command_submit" type="submit">
-	</form>
+	<input id="command_input" type="text" placeholder="write commands here... eventually?">
+	<button id="sendButton">Tekst på knappen</button>
 </body>
