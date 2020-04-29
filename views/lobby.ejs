@@ -1,0 +1,11 @@
+<%- include('template_header'); -%>
+
+<body>
+	<h3> Welcome to lobby <%= user.name %> </h3>
+	<p>some rules about the game lorem ipsum...</p>
+	<div id="chat"> Chat window </br> text will show up here... ... eventually?</div>
+	<form id="command_form" method="POST" action="enter_room">
+		<input id="command_input" type="text" placeholder="write commands here... eventually?">
+		<input id="command_submit" type="submit">
+	</form>
+</body>
