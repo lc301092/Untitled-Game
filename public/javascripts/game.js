@@ -11,7 +11,7 @@ let player = {
 	PrintState: PrintState,
 	DrawCard: DrawCard,
 	Stand: Stand,
-	isStanding: false, 
+	isStanding: false,
 	TakeTurn: PlayerTurn
 };
 
@@ -35,7 +35,7 @@ $(document).ready(function () {
 	InitializePlayers(gameManager);
 
 	// player has three actions with corresponding event listeners
-	
+
 	// draw card
 	$('#btn_draw').on('click', function () {
 		activeAgents[0].DrawCard();
@@ -59,37 +59,51 @@ $(document).ready(function () {
 });
 
 function EndTurn(agent, _gameManager = gameManager) {
-	console.log("##################### " + agent.name + " ends their turn #####################");	
+	console.log("##################### " + agent.name + " ends their turn #####################");
 	_gameManager.GiveTurn(_gameManager.inactivePlayer);
 }
 
 
-function FindWinner(agentArray){
-	let winner = agentArray[0].cardSum > agentArray[1].cardSum ? agentArray[0] : 
-		agentArray[0].cardSum == agentArray[1].cardSum ? {name: "Tie."} : agentArray[1];
+function FindWinner(agentArray) {
+	let winner = agentArray[0].cardSum > agentArray[1].cardSum ? agentArray[0] :
+		agentArray[0].cardSum == agentArray[1].cardSum ? { name: "Tie." } : agentArray[1];
 	console.log("WINNER IS: ");
 	console.log(winner.name);
+
+	let resultString = "";
+
+	if (winner.name == "Tie.") {
+		resultString = "Tie.";
+	}
+	if (winner == agentArray[0]) {
+		resultString = "Win.";
+	}
+	if (winner == agentArray[1]) {
+		resultString = "Losses.";
+	}
+
+	storeGameResults(localAgent, resultString);
 }
 
-function ResetStatus(){
-	for (agent in activeAgents){
+function ResetStatus() {
+	for (agent in activeAgents) {
 		agent.cardSum = 0;
 		agent.isStanding = false;
 	}
 }
 
-function InitializePlayers(_gameManager){
-	for (let i = 0; i < activeAgents.length; i++){
+function InitializePlayers(_gameManager) {
+	for (let i = 0; i < activeAgents.length; i++) {
 		let agent = activeAgents[i];
 		agent.gameManager = _gameManager;
-		agent.SetupDeck();	
+		agent.SetupDeck();
 	}
 	gameManager.players = activeAgents;
 }
 
 //GameManaging function - gives turn to a player, that then uses it for something.
-function GiveTurn(agent){
-	if (!agent.isStanding){
+function GiveTurn(agent) {
+	if (!agent.isStanding) {
 		this.inactivePlayer = this.currentPlayersTurn;
 		this.currentPlayersTurn = agent;
 		agent.TakeTurn();
@@ -97,7 +111,7 @@ function GiveTurn(agent){
 	}
 
 	// Both player are standing 
-	if(this.currentPlayersTurn.isStanding){
+	if (this.currentPlayersTurn.isStanding) {
 		FindWinner(activeAgents);
 		ResetStatus();
 		return;
