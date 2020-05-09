@@ -12,7 +12,9 @@ let player = {
 	DrawCard: DrawCard,
 	Stand: Stand,
 	isStanding: false,
-	TakeTurn: PlayerTurn
+	TakeTurn: PlayerTurn,
+	state: "lobby",
+
 };
 
 let gameManager = {
@@ -30,34 +32,6 @@ console.log(gameManager);
 
 
 
-$(document).ready(function () {
-	// look at how many agents are in the game and setup
-	InitializePlayers(gameManager);
-
-	// player has three actions with corresponding event listeners
-
-	// draw card
-	$('#btn_draw').on('click', function () {
-		activeAgents[0].DrawCard();
-		activeAgents[0].PrintState();
-		EndTurn(activeAgents[0], gameManager);
-
-	});
-	// stand 
-	$('#btn_stand').on('click', function () {
-		activeAgents[0].Stand();
-		EndTurn(activeAgents[0], gameManager);
-	});
-
-	// look at the game state
-	$('#btn_status').on('click', function () {
-		activeAgents[0].PrintState();
-	});
-
-
-
-});
-
 function EndTurn(agent, _gameManager = gameManager) {
 	console.log("##################### " + agent.name + " ends their turn #####################");
 	_gameManager.GiveTurn(_gameManager.inactivePlayer);
@@ -66,7 +40,9 @@ function EndTurn(agent, _gameManager = gameManager) {
 
 function FindWinner(agentArray) {
 	let winner = agentArray[0].cardSum > agentArray[1].cardSum ? agentArray[0] :
-		agentArray[0].cardSum == agentArray[1].cardSum ? { name: "Tie." } : agentArray[1];
+		agentArray[0].cardSum == agentArray[1].cardSum ? {
+			name: "Tie."
+		} : agentArray[1];
 	console.log("WINNER IS: ");
 	console.log(winner.name);
 
@@ -120,3 +96,32 @@ function GiveTurn(agent) {
 	this.currentPlayersTurn.TakeTurn(); //Currentplayer stays the same, and they take their turn.
 }
 
+
+
+// legacy listener for player events 
+//$(document).ready(function () {
+//	// look at how many agents are in the game and setup
+//
+//	if (player.state == "game")
+//		InitializePlayers(gameManager);
+//
+//
+//	//// player has three actions with corresponding event listeners
+//	//	$('#btn_draw').on('click', function () {
+//	//		activeAgents[0].DrawCard();
+//	//		activeAgents[0].PrintState();
+//	//		EndTurn(activeAgents[0], gameManager);
+//	//
+//	//	});
+//	//	// stand 
+//	//	$('#btn_stand').on('click', function () {
+//	//		activeAgents[0].Stand();
+//	//		EndTurn(activeAgents[0], gameManager);
+//	//	});
+//	//
+//	//	// look at the game state
+//	//	$('#btn_status').on('click', function () {
+//	//		activeAgents[0].PrintState();
+//	//	});
+//
+//});

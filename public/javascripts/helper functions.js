@@ -18,7 +18,11 @@ function isBiggerThan(number, threshold) {
 function MakeMessage(messageString, username) {
 	//Maybe access username from localstorage when calling this?
 	let currentRoom = localStorage.getItem(roomName);
-	let messageObject = { message: messageString, identifyingHandle: username, roomName: currentRoom };
+	let messageObject = {
+		message: messageString,
+		identifyingHandle: username,
+		roomName: currentRoom
+	};
 
 	return messageObject;
 }
@@ -30,13 +34,28 @@ function storeGameResults(localAgent, resultString) {
 
 		switch (resultString) {
 			case "Tie.":
-				currentStats = { name: localAgent.name, wins: 0, losses: 0, ties: 1 };
+				currentStats = {
+					name: localAgent.name,
+					wins: 0,
+					losses: 0,
+					ties: 1
+				};
 				break;
 			case "Win.":
-				currentStats = { name: localAgent.name, wins: 1, losses: 0, ties: 0 };
+				currentStats = {
+					name: localAgent.name,
+					wins: 1,
+					losses: 0,
+					ties: 0
+				};
 				break;
 			case "Loss.":
-				currentStats = { name: localAgent.name, wins: 0, losses: 1, ties: 0 };
+				currentStats = {
+					name: localAgent.name,
+					wins: 0,
+					losses: 1,
+					ties: 0
+				};
 				break;
 		}
 
@@ -57,5 +76,52 @@ function storeGameResults(localAgent, resultString) {
 	}
 	localStorage.setItem("playerStats", JSON.stringify(currentStats));
 
+
+}
+
+function getMessage() {
+	let text = $('#m').val();
+	// here we can choose to do some validation;
+	console.log('this message was gotten from input: ' + text);
+	return text;
+}
+
+function sendMessageToServer() {
+	let message = getMessage();
+	if (!(message.trim().length > 0))
+		return;
+	$.ajax({
+		type: 'POST',
+		url: 'chat_message',
+		data: JSON.stringify({
+			message: message
+		}),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		work: 'yes'
+	}).done(function (data) {
+		$('#m').val('');
+
+		// use reference to local state below variable is just a place holder
+		let placeHolderLocalState = localStorage.getItem('state');
+		if (data.state != placeHolderLocalState) {
+			updateState(data.state);
+			$('#messages').append($('<li>').text(data.messageBack));
+		}
+
+
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+		console.log(errorThrown.toString());
+		console.log('LUCA STADIG ALENE');
+	});
+}
+
+function updateState(state) {
+	if (state == 'lobby')
+		$('#game_div').css('display', 'none');
+	if (state == 'gametest')
+		$('#game_div').css('display', 'block');
+
+	localStorage.setItem('state', state);
 
 }
