@@ -49,7 +49,7 @@ function storeGameResults(localAgent, resultString) {
 					ties: 0
 				};
 				break;
-			case "Loss.":
+			case "Losses.":
 				currentStats = {
 					name: localAgent.name,
 					wins: 0,
@@ -79,7 +79,7 @@ function storeGameResults(localAgent, resultString) {
 
 }
 
-function getMessage() {
+function getMessageInput() {
 	let text = $('#m').val();
 	// here we can choose to do some validation;
 	console.log('this message was gotten from input: ' + text);
@@ -87,7 +87,7 @@ function getMessage() {
 }
 
 function sendMessageToServer() {
-	let message = getMessage();
+	let message = getMessageInput();
 	if (!(message.trim().length > 0))
 		return;
 	$.ajax({
@@ -104,6 +104,7 @@ function sendMessageToServer() {
 
 		// use reference to local state below variable is just a place holder
 		let placeHolderLocalState = localStorage.getItem('state');
+
 		if (data.state != placeHolderLocalState) {
 			updateState(data.state);
 			$('#messages').append($('<li>').text(data.messageBack));
@@ -119,8 +120,10 @@ function sendMessageToServer() {
 function updateState(state) {
 	if (state == 'lobby')
 		$('#game_div').css('display', 'none');
-	if (state == 'gametest')
+	if (state == 'gametest') {
 		$('#game_div').css('display', 'block');
+		initializeGame();
+	}
 
 	localStorage.setItem('state', state);
 

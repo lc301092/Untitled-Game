@@ -1,19 +1,24 @@
-const DECK_SIZE = 24;
 const CARD_VARIANCE = 6;
+// 4 sets of each whole number up to card variance starting at 1
+const DECK_SIZE = CARD_VARIANCE * 4;
 const MAX_VALUE = 12;
+let hasGameStarted;
+let drawPile = [];
+let discardPile = [];
+let activeAgents = [];
+
 
 let player = {
 	name: 'LuJa',
-	drawPile: [],
-	discardPile: [],
 	cardSum: 0,
-	SetupDeck: SetupDeck,
 	PrintState: PrintState,
 	DrawCard: DrawCard,
 	Stand: Stand,
 	isStanding: false,
-	TakeTurn: PlayerTurn,
 	state: "lobby",
+	TakeTurn: function () {
+		console.log('It\'s your turn');
+	}
 
 };
 
@@ -24,19 +29,10 @@ let gameManager = {
 	GiveTurn: GiveTurn
 }
 
-let activeAgents = [player, NPC]; //NPC defined in "AI.js"
-gameManager.players = activeAgents;
-gameManager.currentPlayersTurn = player;
-gameManager.inactivePlayer = NPC;
-console.log(gameManager);
-
-
-
 function EndTurn(agent, _gameManager = gameManager) {
 	console.log("##################### " + agent.name + " ends their turn #####################");
 	_gameManager.GiveTurn(_gameManager.inactivePlayer);
 }
-
 
 function FindWinner(agentArray) {
 	let winner = agentArray[0].cardSum > agentArray[1].cardSum ? agentArray[0] :
@@ -62,22 +58,23 @@ function FindWinner(agentArray) {
 }
 
 function ResetStatus() {
-	for (agent in activeAgents) {
+	for (i in activeAgents) {
+		let agent = activeAgents[i];
+		console.log('resetting status for ' + agent.name);
 		agent.cardSum = 0;
 		agent.isStanding = false;
 	}
+	console.log("READY FOR NOW ROUND");
 }
 
 function InitializePlayers(_gameManager) {
 	for (let i = 0; i < activeAgents.length; i++) {
 		let agent = activeAgents[i];
 		agent.gameManager = _gameManager;
-		agent.SetupDeck();
 	}
 	gameManager.players = activeAgents;
 }
 
-//GameManaging function - gives turn to a player, that then uses it for something.
 function GiveTurn(agent) {
 	if (!agent.isStanding) {
 		this.inactivePlayer = this.currentPlayersTurn;
@@ -96,32 +93,31 @@ function GiveTurn(agent) {
 	this.currentPlayersTurn.TakeTurn(); //Currentplayer stays the same, and they take their turn.
 }
 
+function initializeGame() {
+	activeAgents = [player, NPC];
+	gameManager.players = activeAgents;
+	gameManager.currentPlayersTurn = player;
+	gameManager.inactivePlayer = NPC;
+	console.log(gameManager);
+	InitializePlayers(gameManager);
 
+	SetupDeck(drawPile);
 
-// legacy listener for player events 
-//$(document).ready(function () {
-//	// look at how many agents are in the game and setup
-//
-//	if (player.state == "game")
-//		InitializePlayers(gameManager);
-//
-//
-//	//// player has three actions with corresponding event listeners
-//	//	$('#btn_draw').on('click', function () {
-//	//		activeAgents[0].DrawCard();
-//	//		activeAgents[0].PrintState();
-//	//		EndTurn(activeAgents[0], gameManager);
-//	//
-//	//	});
-//	//	// stand 
-//	//	$('#btn_stand').on('click', function () {
-//	//		activeAgents[0].Stand();
-//	//		EndTurn(activeAgents[0], gameManager);
-//	//	});
-//	//
-//	//	// look at the game state
-//	//	$('#btn_status').on('click', function () {
-//	//		activeAgents[0].PrintState();
-//	//	});
-//
-//});
+	// player has three actions with corresponding event listeners
+	$('#btn_draw').on('click', function () {
+		activeAgents[0].DrawCard();
+		activeAgents[0].PrintState();
+		EndTurn(activeAgents[0], gameManager);
+
+	});
+	// stand 
+	$('#btn_stand').on('click', function () {
+		activeAgents[0].Stand();
+		EndTurn(activeAgents[0], gameManager);
+	});
+
+	// look at the game state
+	$('#btn_status').on('click', function () {
+		activeAgents[0].PrintState();
+	});
+}
