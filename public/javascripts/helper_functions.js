@@ -105,10 +105,13 @@ function sendMessageToServer() {
 		// use reference to local state below variable is just a place holder
 		let placeHolderLocalState = localStorage.getItem('state');
 
-		if (data.state != placeHolderLocalState) {
+		if (data.state && data.state != placeHolderLocalState) {
 			updateState(data.state);
 			$('#messages').append($('<li>').text(data.messageBack));
 		}
+		// normal chat messages doesnt have state changes
+		if (!data.state)
+			$('#messages').append($('<li>').text(data.messageBack));
 
 
 	}).fail(function (jqXHR, textStatus, errorThrown) {

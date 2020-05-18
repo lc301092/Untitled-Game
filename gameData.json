@@ -1,0 +1,3 @@
+{
+	"rules": "The rules for the game are simple: \n take turns to draw from a common pile of cards. Cards can vary from 1-6. \n At the start of the game, there is 24 cards which means 4 of each number card. \n The goal is to get to 12 or as close as possible before standing. \n However, if you exceed 12 when drawing, the difference your total number and 12 is subtracted instead and you will stand. \n You can also choose to stand on any of your turns which means you don't draw anymore. "
+}

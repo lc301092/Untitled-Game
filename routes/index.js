@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-const validCommands = ['join room', 'lobby', 'active games'];
+const express = require('express');
+const router = express.Router();
+const validCommands = ['join room', 'lobby', 'rules'];
+const gameRules = require('../gameData');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -9,25 +10,7 @@ router.get('/', function (req, res, next) {
 	});
 });
 
-router.post('/login', function (req, res, next) {
 
-	let user = req.body.uname;
-	let password = req.body.psw;
-
-	//TODO handle login validation here 
-
-
-	let token = "some-kind-of-id-or-token";
-	// if succesfull render the game or lobby page
-	res.render('lobby', {
-		title: 'Express',
-		user: {
-			name: user,
-			room: 'lobby',
-			token: token
-		}
-	});
-});
 
 router.post('/chat_message', function (req, res, next) {
 	let chatMessage = req.body.message;
@@ -51,6 +34,10 @@ router.post('/chat_message', function (req, res, next) {
 			res.send({
 				messageBack: 'User joined the lobby',
 				state: 'lobby'
+			});
+		if (command == "rules")
+			res.send({
+				messageBack: gameRules.rules
 			});
 	} else {
 		res.send({

@@ -1,13 +1,29 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-//var bodyParser = require('body-parser');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+//const bodyParser = require('body-parser');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const app = express();
 
-var app = express();
+const mongoose = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://Luca:3010@cluster0-u29mo.mongodb.net/untitledDb";
+const config = {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+}
+
+mongoose.connect(uri, config);
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('connected', function () {
+	console.log('connected correctly to db.');
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
