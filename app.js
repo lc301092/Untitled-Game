@@ -16,6 +16,64 @@ const config = {
 	useUnifiedTopology: true
 }
 
+const validCommands = ['join room', 'lobby', 'rules'];
+const gameRules = require('./gameData');
+
+
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+
+
+
+app.get('/', (req, res) => {
+	res.render('login', {
+		title: 'Express'
+	});
+
+});
+
+http.listen(4000, () => {
+	console.log('listening on *:4000');
+});
+
+
+io.on('connection', function (socket) {
+	console.log('a user connected');
+	socket.on('chat message', function (msg) {
+		console.log('socket message: \n' + msg);
+
+		let chatMessage = msg;
+		let isCommand = chatMessage.charAt(0) == "/";
+
+		if (isCommand) {
+			let command = chatMessage.split('/')[1];
+			// if it is not -1 it means that it has an index in the array
+			let isCommandValid = validCommands.indexOf(command) != -1;
+			console.log('the is a command ' + command + ' and it is ' + isCommandValid);
+			if (!isCommandValid)
+				io.emit('command error', "command doesn't exist");
+			if (command == "join room")
+				io.emit('change room', "not yet defined");
+				io.emit('chat message', "not yet defined");
+			if (command == "lobby")
+				res.send({
+					messageBack: 'User joined the lobby',
+					state: 'lobby'
+				});
+			if (command == "rules")
+				res.send({
+					messageBack: gameRules.rules
+				});
+		} else {
+			io.emit('chat message', msg);
+		}
+	});
+
+
+});
+
+
+
 mongoose.connect(uri, config);
 // if ever needed this is how to access the connection object 
 const db = mongoose.connection;
