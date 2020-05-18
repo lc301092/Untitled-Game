@@ -13,7 +13,7 @@ router.post('/createUser', function (req, res, next) {
 	let password = req.body.psw;
 	let returnMessage = {};
 
-
+	// userClass already has db reference through the mongoose model connect
 	userClass.findOne({
 		username: userName
 	}, {}, function (err, userFound) {
@@ -49,7 +49,7 @@ router.post('/login', function (req, res, next) {
 	let userName = req.body.uname;
 	let password = req.body.psw;
 
-	//TODO handle login validation here 
+	// check if 
 	let user = userClass.findOne({
 		username: userName,
 		password: password
@@ -57,13 +57,16 @@ router.post('/login', function (req, res, next) {
 		console.log(user);
 		if (user) {
 			let token = "some-kind-of-id-or-token";
-			// if succesfull render the game or lobby page
+			// if succesful, render the game or lobby page
+			res.cookie('activeUser', {
+				username: userName,
+				room: 'lobby',
+				token: token
+			})
 			res.render('lobby', {
 				title: 'Express',
 				user: {
-					name: userName,
-					room: 'lobby',
-					token: token
+					name: userName
 				}
 			});
 

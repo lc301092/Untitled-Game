@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-//Define a schema
 const Schema = mongoose.Schema;
 
+// TODO figure out necessary/handle fields for any user
 let userSchema = new Schema({
 	username: String,
 	password: String,
@@ -10,5 +10,4 @@ let userSchema = new Schema({
 
 let user = mongoose.model('user', userSchema);
 
-// this was to create individual connection models. dont use that.
 module.exports = user;

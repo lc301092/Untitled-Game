@@ -9,6 +9,7 @@ router.get('/', function (req, res, next) {
 		title: 'Express'
 	});
 });
+
 router.get('/dev_lobby', function (req, res, next) {
 	res.render('lobby', {
 		title: 'Express',
@@ -20,7 +21,7 @@ router.get('/dev_lobby', function (req, res, next) {
 });
 
 
-
+// this probably should have its own route file
 router.post('/chat_message', function (req, res, next) {
 	let chatMessage = req.body.message;
 	console.log(chatMessage);

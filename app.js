@@ -17,6 +17,7 @@ const config = {
 }
 
 mongoose.connect(uri, config);
+// if ever needed this is how to access the connection object 
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
