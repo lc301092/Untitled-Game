@@ -3,12 +3,6 @@ const router = express.Router();
 const validCommands = ['join room', 'lobby', 'rules'];
 const gameRules = require('../gameData');
 
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
-
-io.on('connection', (socket) => {
-	console.log('a user connected');
-});
 
 
 /* GET home page. */
@@ -18,12 +12,7 @@ router.get('/', function (req, res, next) {
 	});
 });
 
-http.listen(3000, () => {
-	console.log('listening on *:3000');
-  });
 
-
-  
 
 router.get('/dev_lobby', function (req, res, next) {
 	res.render('lobby', {
