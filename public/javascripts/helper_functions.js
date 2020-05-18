@@ -92,7 +92,7 @@ function sendMessageToServer() {
 		return;
 	$.ajax({
 		type: 'POST',
-		url: 'chat_message',
+		url: '/chat_message',
 		data: JSON.stringify({
 			message: message
 		}),
@@ -116,7 +116,6 @@ function sendMessageToServer() {
 
 	}).fail(function (jqXHR, textStatus, errorThrown) {
 		console.log(errorThrown.toString());
-		console.log('LUCA STADIG ALENE');
 	});
 }
 

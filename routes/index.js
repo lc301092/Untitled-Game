@@ -9,6 +9,15 @@ router.get('/', function (req, res, next) {
 		title: 'Express'
 	});
 });
+router.get('/dev_lobby', function (req, res, next) {
+	res.render('lobby', {
+		title: 'Express',
+		user: {
+			name: 'test-person'
+		}
+
+	});
+});
 
 
 
