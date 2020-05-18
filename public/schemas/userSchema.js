@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 let userSchema = new Schema({
 	username: String,
 	password: String,
+	items: [String],
+	currentRoom: String
 });
 
 let user = mongoose.model('user', userSchema);
