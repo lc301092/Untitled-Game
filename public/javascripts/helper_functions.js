@@ -18,7 +18,7 @@ function isBiggerThan(number, threshold) {
 function MakeMessage(messageString, username) {
 	//Maybe access username from localstorage when calling this?
 
-	let currentRoom = localStorage.getItem('state');
+	let currentRoom = localStorage.getItem('currentRoom');
 
 	let messageObject = {
 		message: messageString,
@@ -88,49 +88,19 @@ function getMessageInput() {
 	return text;
 }
 
-/*function sendMessageToServer() {
-	let message = getMessageInput();
-	if (!(message.trim().length > 0))
-		return;
-	$.ajax({
-		type: 'POST',
-		url: '/chat_message',
-		data: JSON.stringify({
-			message: message
-		}),
-		contentType: 'application/json; charset=utf-8',
-		dataType: 'json',
-		work: 'yes'
-	}).done(function (data) {
-		$('#m').val('');
-
-		// use reference to local state below variable is just a place holder
-		let placeHolderLocalState = localStorage.getItem('state');
-
-		if (data.state && data.state != placeHolderLocalState) {
-			updateState(data.state);
-			$('#messages').append($('<li>').text(data.messageBack));
-		}
-		// normal chat messages doesnt have state changes
-		if (!data.state)
-			$('#messages').append($('<li>').text(data.messageBack));
+function updateRoom(currentRoom) {
+	let previousRoom = localStorage.getItem('currentRoom');
 
 
-	}).fail(function (jqXHR, textStatus, errorThrown) {
-		console.log(errorThrown.toString());
-	});
 
-	//socket.emit('chat message', $('#m').val());
-}
-*/
-function updateState(state) {
-	if (state == 'lobby')
-		$('#game_div').css('display', 'none');
-	if (state == 'gametest') {
-		$('#game_div').css('display', 'block');
-		initializeGame();
-	}
+	$('#' + previousRoom).css('display', 'none');
+	$('#' + currentRoom).css('display', 'block');
 
-	localStorage.setItem('state', state);
+	if (currentRoom.substr(0, 4) == 'room')
+		console.log('GAME DOESNT WORK YET');
+	//initializeGame();
 
+
+	localStorage.setItem('currentRoom', currentRoom);
+	alert('moved to ' + currentRoom + 'from ' + previousRoom);
 }

@@ -11,6 +11,7 @@ function initializeChatListeners() {
 	let $sendButton = $('#sendButton');
 	let $commandInput = $('#m');
 	console.log('chat is online');
+	localStorage.setItem('currentRoom', 'lobby');
 	$sendButton.click(clientSocketHandler);
 
 	$('#m').keypress(function (event) {
@@ -33,7 +34,7 @@ function initializeChatListeners() {
 		// react to message from server 
 		//let room = msg.newRoom;
 		// let message = msg.messageBack;
-		updateState(msg);
+		updateRoom(msg);
 
 	});
 };
