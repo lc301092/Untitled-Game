@@ -21,7 +21,7 @@ const gameRules = require('./gameData');
 
 
 var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+var io = require('socket.io').listen(http);
 
 
 
@@ -40,36 +40,47 @@ http.listen(4000, () => {
 io.on('connection', function (socket) {
 	console.log('a user connected');
 	socket.on('chat message', function (msg) {
-		console.log('socket message: \n' + msg);
+		console.log('socket message: \n', msg);
 
-		let chatMessage = msg;
-		let isCommand = chatMessage.charAt(0) == "/";
+		let message = msg.message;
+		let user = msg.identifyingHandle;
+		let room = msg.roomName;
+		let hourStamp = new Date().toLocaleTimeString();
 
-		if (isCommand) {
-			let command = chatMessage.split('/')[1];
-			// if it is not -1 it means that it has an index in the array
-			let isCommandValid = validCommands.indexOf(command) != -1;
-			console.log('the is a command ' + command + ' and it is ' + isCommandValid);
-			if (!isCommandValid)
-				io.emit('command error', "command doesn't exist");
-			if (command == "join room")
-				io.emit('change room', "not yet defined");
-				io.emit('chat message', "not yet defined");
-			if (command == "lobby")
-				res.send({
-					messageBack: 'User joined the lobby',
-					state: 'lobby'
-				});
-			if (command == "rules")
-				res.send({
-					messageBack: gameRules.rules
-				});
-		} else {
-			io.emit('chat message', msg);
+
+
+		let isCommand = message.charAt(0) == "/";
+		let command = message.split('/')[1];
+		let isCommandValid = validCommands.indexOf(command) != -1;
+
+		// normal chat text
+		if (!isCommand) {
+			io.emit('chat message', hourStamp + ' --- ' + user + ': ' + message);
+			return;
+		}
+
+		// wrong command
+		if (isCommand && !isCommandValid) {
+			io.emit('command error', "command doesn't exist");
+			return;
+		}
+
+		switch (command) {
+			case 'join room':
+				// TODO change room functions
+				io.emit('change room', "gametest");
+				io.emit('chat message', hourStamp + ' : ' + user + " has joined a game");
+				break;
+			case 'lobby':
+				// TODO change room functions
+				io.emit('change room', "lobby");
+				io.emit('chat message', hourStamp + ' : ' + user + " has joined the lobby");
+				break;
+			case 'rules':
+				io.emit('chat message', gameRules.rules);
+				break;
 		}
 	});
-
-
 });
 
 

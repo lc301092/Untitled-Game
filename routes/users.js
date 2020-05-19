@@ -58,11 +58,11 @@ router.post('/login', function (req, res, next) {
 		if (user) {
 			let token = "some-kind-of-id-or-token";
 			// if succesful, render the game or lobby page
-			res.cookie('activeUser', {
+			res.cookie('activeUser', JSON.stringify({
 				username: userName,
 				room: 'lobby',
 				token: token
-			})
+			}));
 			res.render('lobby', {
 				title: 'Express',
 				user: {

@@ -17,10 +17,9 @@ function isBiggerThan(number, threshold) {
 //With a given string, makes this string ready for the server to receive it:
 function MakeMessage(messageString, username) {
 	//Maybe access username from localstorage when calling this?
-	if (!localStorage.getItem(roomName)) {
-		localStorage.setItem(roomName, "lobby");
-	}
-	let currentRoom = localStorage.getItem(roomName);
+
+	let currentRoom = localStorage.getItem('state');
+
 	let messageObject = {
 		message: messageString,
 		identifyingHandle: username,
@@ -89,7 +88,7 @@ function getMessageInput() {
 	return text;
 }
 
-function sendMessageToServer() {
+/*function sendMessageToServer() {
 	let message = getMessageInput();
 	if (!(message.trim().length > 0))
 		return;
@@ -123,7 +122,7 @@ function sendMessageToServer() {
 
 	//socket.emit('chat message', $('#m').val());
 }
-
+*/
 function updateState(state) {
 	if (state == 'lobby')
 		$('#game_div').css('display', 'none');
