@@ -27,7 +27,9 @@ router.post('/createUser', function (req, res, next) {
 
 		let newUser = new userClass({
 			username: userName,
-			password: password
+			password: password,
+			items: ["Your very own item", "another item", "we aren't giving you the ability to flood our database, so here is another item you can just drop in a room for test purposes", 
+		"maybe we should have just given you the option to create items", "every user will start with these items, really has me reconsidering this thing..", "NameTag of: " +userName]
 		});
 
 		console.log('Trying to creating user with ', newUser);
