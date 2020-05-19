@@ -1,12 +1,15 @@
-const createError = require('http-errors');
 const express = require('express');
+const app = express();
+const http = require('http');
+const createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 //const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const app = express();
+const socketDefinition = require('./routes/sockets.js');
+
 
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
@@ -16,75 +19,6 @@ const config = {
 	useUnifiedTopology: true
 }
 
-const validCommands = ['join room', 'lobby', 'rules'];
-const gameRules = require('./gameData');
-
-
-var http = require('http').createServer(app);
-var io = require('socket.io').listen(http);
-
-
-
-app.get('/', (req, res) => {
-	res.render('login', {
-		title: 'Express'
-	});
-
-});
-
-http.listen(4000, () => {
-	console.log('listening on *:4000');
-});
-
-
-io.on('connection', function (socket) {
-	console.log('a user connected');
-	socket.on('chat message', function (msg) {
-		console.log('socket message: \n', msg);
-
-		let message = msg.message;
-		let user = msg.identifyingHandle;
-		let room = msg.roomName;
-		let hourStamp = new Date().toLocaleTimeString();
-
-
-
-		let isCommand = message.charAt(0) == "/";
-		let command = message.split('/')[1];
-		let isCommandValid = validCommands.indexOf(command) != -1;
-
-		// normal chat text
-		if (!isCommand) {
-			io.emit('chat message', hourStamp + ' --- ' + user + ': ' + message);
-			return;
-		}
-
-		// wrong command
-		if (isCommand && !isCommandValid) {
-			io.emit('command error', "command doesn't exist");
-			return;
-		}
-
-		switch (command) {
-			case 'join room':
-				// TODO change room functions
-				io.emit('change room', "gametest");
-				io.emit('chat message', hourStamp + ' : ' + user + " has joined a game");
-				break;
-			case 'lobby':
-				// TODO change room functions
-				io.emit('change room', "lobby");
-				io.emit('chat message', hourStamp + ' : ' + user + " has joined the lobby");
-				break;
-			case 'rules':
-				io.emit('chat message', gameRules.rules);
-				break;
-		}
-	});
-});
-
-
-
 mongoose.connect(uri, config);
 // if ever needed this is how to access the connection object 
 const db = mongoose.connection;
@@ -93,7 +27,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.on('connected', function () {
 	console.log('connected correctly to db.');
 });
-
+app.set('port', 3000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -127,4 +61,10 @@ app.use(function (err, req, res, next) {
 	res.render('error');
 });
 
-module.exports = app;
+let server = http.createServer(app);
+
+server.listen(app.get('port'), function () {
+	console.log("Express server listening on port " + app.get('port'));
+});
+
+socketDefinition.initialize(server);
