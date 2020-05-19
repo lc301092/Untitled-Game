@@ -125,7 +125,7 @@ exports.initialize = function (server) {
 										replacementRoom.items.push(itemDropped);
 
 										replacementRoom.save();
-										io.emit('updateroom', replacementRoom.items);
+										io.emit('update room', replacementRoom.items);
 									});
 
 								} else {
@@ -172,6 +172,7 @@ exports.initialize = function (server) {
 										replacementRoom.items.push(itemDropped);
 
 										replacementRoom.save();
+										io.emit('update room', replacementRoom.items);
 									});
 
 								}
