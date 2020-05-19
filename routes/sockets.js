@@ -61,7 +61,7 @@ exports.initialize = function (server) {
 							socket.leave(rooms[currentRoomIndex]);
 						}
 						socket.join(rooms[0]);
-						io.emit('change room', "lobby");
+						socket.emit('change room', "lobby");
 						io.emit('chat message', hourStamp + ' : ' + userName + " has left " + roomName);
 						io.emit('chat message', hourStamp + ' : ' + userName + " has joined the lobby");
 					}
@@ -86,7 +86,7 @@ exports.initialize = function (server) {
 
 					socket.leave(roomName);
 					socket.join(rooms[gameRoomIndex])
-					io.emit('change room', rooms[gameRoomIndex]);
+					socket.emit('change room', rooms[gameRoomIndex]);
 					io.emit('chat message', hourStamp + ' : ' + userName + " has joined " + rooms[gameRoomIndex]);
 					break;
 			}
