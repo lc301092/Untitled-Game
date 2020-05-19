@@ -9,6 +9,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const socketDefinition = require('./routes/sockets.js');
+const PORT = process.env.PORT || 3000;
 
 
 const mongoose = require('mongoose');
@@ -27,7 +28,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.on('connected', function () {
 	console.log('connected correctly to db.');
 });
-app.set('port', 3000);
+app.set('port', PORT);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
