@@ -8,7 +8,11 @@
 	<button id="btn_stand">Stand</button>
 	<button id="btn_status">Status</button>
 	<p> Check the console log </p>
-	<p>we might need to have 3 different game divs</p>
+	</br>
+	<h3> items in this room here: </h3>
+	<% for(let i=0; i< roomItems.room1.length; i++) {%>
+	<div id="choice<%=i%>" class="btns"> <%=roomItems.lobby[i]%></div>
+	<% } %>
 </div>
 <div id="room2" hidden>
 	<h3>room2</h3>
@@ -16,7 +20,11 @@
 	<button id="btn_stand2">Stand</button>
 	<button id="btn_status2">Status</button>
 	<p> Check the console log </p>
-	<p>we might need to have 3 different game divs</p>
+	</br>
+	<h3> items in this room here: </h3>
+	<% for(let i=0; i< roomItems.lobby.length; i++) {%>
+	<div id="choice<%=i%>" class="btns"> <%=roomItems.lobby[i]%></div>
+	<% } %>
 </div>
 <div id="room3" hidden>
 	<h3>room3</h3>
@@ -24,5 +32,9 @@
 	<button id="btn_stand3">Stand</button>
 	<button id="btn_status3">Status</button>
 	<p> Check the console log </p>
-	<p>we might need to have 3 different game divs</p>
+	</br>
+	<h3> items in this room here: </h3>
+	<% for(let i=0; i< roomItems.lobby.length; i++) {%>
+	<div id="choice<%=i%>" class="btns"> <%=roomItems.lobby[i]%></div>
+	<% } %>
 </div>

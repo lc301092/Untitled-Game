@@ -6,8 +6,12 @@
 	<p> Some rules about the game lorem ipsum...</p>
 	<p> Use the bottom chat to write navigation commands </p>
 	<p> type <b>/help </b> to get a list of commands </p>
-</header>
 
+	<h3> items in this room here: </h3>
+	<% for(let i=0; i< roomItems.lobby.length; i++) {%>
+	<div id="choice<%=i%>" class="btns"> <%=roomItems.lobby[i]%></div>
+	<% } %>
+</header>
 
 <body>
 	<%- include('game'); -%>
