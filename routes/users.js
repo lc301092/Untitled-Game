@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const userClass = require('../public/schemas/userSchema');
+const roomClass = require('../public/schemas/roomSchema')
 const userDb = 'userDatabase';
 const userCollection = 'users';
 
@@ -63,12 +64,63 @@ router.post('/login', function (req, res, next) {
 				room: 'lobby',
 				token: token
 			}));
-			res.render('lobby', {
-				title: 'Express',
-				user: {
-					name: userName
+
+			//TODO: Populate arrays
+
+
+
+			let rooms = roomClass.find({}, {}, function (err, room) {
+
+				console.log("Room: \n " + room);
+
+				lobbyItems = [];
+				room1 = [];
+				room2 = [];
+				room3 = [];
+
+				if (room) {
+
+					for (let i = 0; i < rooms.length; i++) {
+
+						switch (room.roomName) {
+							case "lobby":
+								lobbyItems = room.items;
+								break;
+							case "room1":
+								room1 = room.items;
+								break;
+							case "room2":
+								room2 = room.items;
+								break;
+							case "room3":
+								room3 = room.items;
+								break;
+						}
+
+					}
 				}
+
+				let roomItems = {
+					lobby: lobbyItems,
+					room1: room1Items,
+					room2: room2Items,
+					room3: room3Items
+				}
+
+				res.render('lobby', {
+					title: 'Express',
+					user: {
+						name: userName
+					},
+					roomItems: roomItems
+					});
+
+				return room;
+
 			});
+
+
+
 
 		} else {
 			// user doesnt exist
@@ -76,6 +128,8 @@ router.post('/login', function (req, res, next) {
 		}
 
 	});
+
+
 
 });
 
