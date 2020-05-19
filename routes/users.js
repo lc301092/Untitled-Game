@@ -73,29 +73,31 @@ router.post('/login', function (req, res, next) {
 
 				console.log("Room: \n " + room);
 
-				if (room) {
-					lobbyItems = [room.indexOf["lobby"].items];
-					room1 = [room.indexOf["room1"].items];
-					room2 = [room.indexOf["room2"].items];
-					room3 = [room.indexOf["room3"].items];
-
-
-					let roomItems = {
-						lobby: lobbyItems,
-						room1: room1,
-						room2: room2,
-						room3: room3
-					}
-
-					res.render('lobby', {
-						title: 'Express',
-						user: {
-							name: userName
-						},
-						roomItems: roomItems
-					});
-
+				if (!room) {
+					console.log("room was empty");
 				}
+				lobbyItems = [room.indexOf("lobby").items];
+				room1 = [room.indexOf("room1").items];
+				room2 = [room.indexOf("room2").items];
+				room3 = [room.indexOf("room3").items];
+
+				let roomItems = {
+					lobby: lobbyItems,
+					room1: room1,
+					room2: room2,
+					room3: room3
+				}
+
+				res.render('lobby', {
+					title: 'Express',
+					user: {
+						name: userName
+					},
+					roomItems: roomItems
+				});
+
+				return room;
+
 			});
 
 
