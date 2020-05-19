@@ -76,10 +76,30 @@ router.post('/login', function (req, res, next) {
 				if (!room) {
 					console.log("room was empty");
 				}
-				lobbyItems = [room.indexOf("lobby").items];
-				room1 = [room.indexOf("room1").items];
-				room2 = [room.indexOf("room2").items];
-				room3 = [room.indexOf("room3").items];
+				
+				let lobbyItems = [];
+				let room1 = [];
+				let room2 = [];
+				let room3 = [];
+				
+				for (let i = 0; i < room.length; i++) {
+					switch (room[i].roomName) {
+						case "lobby":
+							lobbyItems = room[i].items;
+							break;
+						case "room1":
+							room1 = room[i].items;
+							break;
+						case "room2":
+							room2 = room[i].items;
+							break;
+						case "room3":
+							room3 = room[i].items;
+							break;
+					}
+				}
+
+
 
 				let roomItems = {
 					lobby: lobbyItems,
@@ -87,6 +107,8 @@ router.post('/login', function (req, res, next) {
 					room2: room2,
 					room3: room3
 				}
+
+				console.log("pre-render roomitems: \n ", roomItems.lobby);
 
 				res.render('lobby', {
 					title: 'Express',
