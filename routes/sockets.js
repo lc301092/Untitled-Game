@@ -125,8 +125,11 @@ exports.initialize = function (server) {
 										replacementRoom.items.push(itemDropped);
 
 										replacementRoom.save();
+										io.emit('updateroom', replacementRoom.items);
 									});
 
+								} else {
+									io.emit('chat message', userName + " tried to drop an item he didn't even have, what a noob");
 								}
 							}
 						});
