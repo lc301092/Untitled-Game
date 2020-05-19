@@ -73,50 +73,29 @@ router.post('/login', function (req, res, next) {
 
 				console.log("Room: \n " + room);
 
-				lobbyItems = [];
-				room1 = [];
-				room2 = [];
-				room3 = [];
-
 				if (room) {
+					lobbyItems = [room.indexOf["lobby"].items];
+					room1 = [room.indexOf["room1"].items];
+					room2 = [room.indexOf["room2"].items];
+					room3 = [room.indexOf["room3"].items];
 
-					for (let i = 0; i < rooms.length; i++) {
 
-						switch (room.roomName) {
-							case "lobby":
-								lobbyItems = room.items;
-								break;
-							case "room1":
-								room1 = room.items;
-								break;
-							case "room2":
-								room2 = room.items;
-								break;
-							case "room3":
-								room3 = room.items;
-								break;
-						}
-
+					let roomItems = {
+						lobby: lobbyItems,
+						room1: room1,
+						room2: room2,
+						room3: room3
 					}
-				}
 
-				let roomItems = {
-					lobby: lobbyItems,
-					room1: room1Items,
-					room2: room2Items,
-					room3: room3Items
-				}
-
-				res.render('lobby', {
-					title: 'Express',
-					user: {
-						name: userName
-					},
-					roomItems: roomItems
+					res.render('lobby', {
+						title: 'Express',
+						user: {
+							name: userName
+						},
+						roomItems: roomItems
 					});
 
-				return room;
-
+				}
 			});
 
 
