@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const userClass = require('../public/schemas/userSchema');
-const roomClass = require('../public/schemas/roomSchema')
+const roomClass = require('../public/schemas/roomSchema');
 const userDb = 'userDatabase';
 const userCollection = 'users';
 

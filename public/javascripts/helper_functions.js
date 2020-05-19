@@ -100,7 +100,7 @@ function updateRoom(currentRoom) {
 		console.log('GAME DOESNT WORK YET');
 	//initializeGame();
 
-
+	
 	localStorage.setItem('currentRoom', currentRoom);
 	alert('moved to ' + currentRoom + 'from ' + previousRoom);
 }
