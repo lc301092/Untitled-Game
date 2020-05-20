@@ -33,7 +33,6 @@ function initializeChatListeners() {
 		for (let i = 0; i < itemList.length; i++) {
 
 			let $item = $('<div>' + itemList[i] + '</div>');
-			console.log($item);
 			//$('#' + roomID + ' .items').append($item);
 			$itemlist.append($item);
 		}
