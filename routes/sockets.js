@@ -123,7 +123,7 @@ exports.initialize = function (server) {
 										replacementRoom.items.push(itemDropped);
 
 										replacementRoom.save();
-										io.emit('update room', room);
+										io.emit('update room', replacementRoom);
 									});
 
 								} else {
