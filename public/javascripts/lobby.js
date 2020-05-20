@@ -37,10 +37,6 @@ function initializeChatListeners() {
 			//$('#' + roomID + ' .items').append($item);
 			$itemlist.append($item);
 		}
-
-		console.log('did we get it?', $itemlist);
-		console.log('updating room items with this list: ', msg.items);
-		$('#messages').append($('<li>').text(msg));
 	});
 	socket.on('command error', function (msg) {
 		$('#messages').append($('<li>').text(msg));
