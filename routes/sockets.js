@@ -26,6 +26,7 @@ exports.initialize = function (server) {
 		//join the lobby
 		socket.join(rooms[0]);
 
+		io.emit('chat message', 'a user connected');
 
 
 		socket.on('chat message', function (msg) {
