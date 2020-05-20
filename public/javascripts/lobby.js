@@ -24,6 +24,24 @@ function initializeChatListeners() {
 		console.log('what is this: ', msg);
 		$('#messages').append($('<li>').text(msg));
 	});
+	socket.on('update room', function (msg) {
+		console.log('returnObj ', msg);
+		let roomID = msg.roomName;
+		let itemList = msg.items;
+		let $itemlist = $('#' + roomID + ' .items');
+		$itemlist.empty();
+		for (let i = 0; i < itemList.length; i++) {
+
+			let $item = $('<div>' + itemList[i] + '</div>');
+			console.log($item);
+			//$('#' + roomID + ' .items').append($item);
+			$itemlist.append($item);
+		}
+
+		console.log('did we get it?', $itemlist);
+		console.log('updating room items with this list: ', msg.items);
+		$('#messages').append($('<li>').text(msg));
+	});
 	socket.on('command error', function (msg) {
 		$('#messages').append($('<li>').text(msg));
 	});
