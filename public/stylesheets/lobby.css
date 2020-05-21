@@ -1,5 +1,11 @@
 body {
 	font: 13px Helvetica, Arial;
+	background-position: right 10px top 10px;
+	background-size: 700px 470px;
+	background-image: url("v_a_p_o_r_w_a_v_e___aesthetic_mountains_by_rayed_the_pleb_dbf0bz7-fullview.png");
+	background-repeat: no-repeat;
+	background-color: #cccccc;
+	
 }
 
 #footer {
